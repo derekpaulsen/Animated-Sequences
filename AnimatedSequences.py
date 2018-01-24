@@ -88,10 +88,6 @@ class SequenceFunc:
             pf = LineFunc(path, inter_func , inter)
             self.line_funcs.append(pf)
 
-    @classmethod
-    def make(cls, n, inter_func, inter):
-        return cls(n, inter_func, inter)
-
     def make_seqs(self, n: int):
         raise NotImplemented
 
@@ -196,10 +192,6 @@ class IntervalFuncCos:
         self.z = (y0 - y1)/2
         self.w = (y0 + y1)/2
     
-    @classmethod
-    def make(cls, start, end):
-        return cls(start, end)
-
     def __call__(self, x: float) -> float:
         return np.cos((x - self.x0) * np.pi) * self.z + self.w
 
@@ -213,10 +205,6 @@ class IntervalFuncCube:
         self.w = (y0 + y1)/2
         self.r = (y1 - y0)*4 
 
-    @classmethod
-    def make(cls, start, end):
-        return cls(start, end)
-    
     def __call__(self, x: float) -> float:
         return ((x - self.z)**3) * self.r  + self.w
 
@@ -226,10 +214,6 @@ class IntervalFuncSqr:
         self.x0, self.y0 = start
         x1, y1 = end
         self.r = (y1 - self.y0)
-
-    @classmethod
-    def make(cls, start, end):
-        return cls(start, end)
 
     def __call__(self, x: float) -> float:
         return ((x - self.x0)**2) * self.r + self.y0
@@ -242,20 +226,16 @@ class IntervalFunc4th:
         x1, y1 = end
         self.r = (y1 - self.y0)
 
-    @classmethod
-    def make(cls, start, end):
-        return cls(start, end)
-
     def __call__(self, x: float) -> float:
         return ((x - self.x0)**4) * self.r + self.y0
 
 
 if __name__ == '__main__':
-    n = 25
+    n = 50
     i = 30
     fig, ax = plt.subplots()
     print(Collatz.make(n, IntervalFunc4th.make, i))
-    a = LineAnimator(ax, Collatz.make, IntervalFuncCos.make, n, i)
+    a = LineAnimator(ax, Collatz, IntervalFunc4th, n, i)
     a.clear()
     ani = FuncAnimation(fig, a.animate, 300, repeat = True, blit = True, interval = 20)
     plt.show()
