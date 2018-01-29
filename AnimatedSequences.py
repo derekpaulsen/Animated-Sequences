@@ -234,7 +234,6 @@ if __name__ == '__main__':
     n = 50
     i = 30
     fig, ax = plt.subplots()
-    print(Collatz.make(n, IntervalFunc4th.make, i))
     a = LineAnimator(ax, Collatz, IntervalFunc4th, n, i)
     a.clear()
     ani = FuncAnimation(fig, a.animate, 300, repeat = True, blit = True, interval = 20)
